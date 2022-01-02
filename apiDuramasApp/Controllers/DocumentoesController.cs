@@ -12,47 +12,47 @@ namespace apiDuramasApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MaterialsController : ControllerBase
+    public class DocumentoesController : ControllerBase
     {
         private readonly Contexto _context;
 
-        public MaterialsController(Contexto context)
+        public DocumentoesController(Contexto context)
         {
             _context = context;
         }
 
-        // GET: api/Materials
+        // GET: api/Documentoes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Material>>> GetMaterials()
+        public async Task<ActionResult<IEnumerable<Documento>>> GetDocumentos()
         {
-            return await _context.Materials.ToListAsync();
+            return await _context.Documentos.ToListAsync();
         }
 
-        // GET: api/Materials/5
+        // GET: api/Documentoes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Material>> GetMaterial(int id)
+        public async Task<ActionResult<Documento>> GetDocumento(int id)
         {
-            var material = await _context.Materials.FindAsync(id);
+            var documento = await _context.Documentos.FindAsync(id);
 
-            if (material == null)
+            if (documento == null)
             {
                 return NotFound();
             }
 
-            return material;
+            return documento;
         }
 
-        // PUT: api/Materials/5
+        // PUT: api/Documentoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMaterial(int id, Material material)
+        public async Task<IActionResult> PutDocumento(int id, Documento documento)
         {
-            if (id != material.MaterialId)
+            if (id != documento.DocumentoId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(material).State = EntityState.Modified;
+            _context.Entry(documento).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace apiDuramasApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MaterialExists(id))
+                if (!DocumentoExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace apiDuramasApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Materials
+        // POST: api/Documentoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Material>> PostMaterial(Material material)
+        public async Task<ActionResult<Documento>> PostDocumento(Documento documento)
         {
-            _context.Materials.Add(material);
+            _context.Documentos.Add(documento);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMaterial", new { id = material.MaterialId }, material);
+            return CreatedAtAction("GetDocumento", new { id = documento.DocumentoId }, documento);
         }
 
-        // DELETE: api/Materials/5
+        // DELETE: api/Documentoes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMaterial(int id)
+        public async Task<IActionResult> DeleteDocumento(int id)
         {
-            var material = await _context.Materials.FindAsync(id);
-            if (material == null)
+            var documento = await _context.Documentos.FindAsync(id);
+            if (documento == null)
             {
                 return NotFound();
             }
 
-            _context.Materials.Remove(material);
+            _context.Documentos.Remove(documento);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MaterialExists(int id)
+        private bool DocumentoExists(int id)
         {
-            return _context.Materials.Any(e => e.MaterialId == id);
+            return _context.Documentos.Any(e => e.DocumentoId == id);
         }
     }
 }

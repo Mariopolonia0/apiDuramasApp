@@ -12,47 +12,47 @@ namespace apiDuramasApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MaterialsController : ControllerBase
+    public class ToolsController : ControllerBase
     {
         private readonly Contexto _context;
 
-        public MaterialsController(Contexto context)
+        public ToolsController(Contexto context)
         {
             _context = context;
         }
 
-        // GET: api/Materials
+        // GET: api/Tools
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Material>>> GetMaterials()
+        public async Task<ActionResult<IEnumerable<Tools>>> GetTools()
         {
-            return await _context.Materials.ToListAsync();
+            return await _context.Tools.ToListAsync();
         }
 
-        // GET: api/Materials/5
+        // GET: api/Tools/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Material>> GetMaterial(int id)
+        public async Task<ActionResult<Tools>> GetTools(int id)
         {
-            var material = await _context.Materials.FindAsync(id);
+            var tools = await _context.Tools.FindAsync(id);
 
-            if (material == null)
+            if (tools == null)
             {
                 return NotFound();
             }
 
-            return material;
+            return tools;
         }
 
-        // PUT: api/Materials/5
+        // PUT: api/Tools/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMaterial(int id, Material material)
+        public async Task<IActionResult> PutTools(int id, Tools tools)
         {
-            if (id != material.MaterialId)
+            if (id != tools.ToolsId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(material).State = EntityState.Modified;
+            _context.Entry(tools).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace apiDuramasApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MaterialExists(id))
+                if (!ToolsExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace apiDuramasApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Materials
+        // POST: api/Tools
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Material>> PostMaterial(Material material)
+        public async Task<ActionResult<Tools>> PostTools(Tools tools)
         {
-            _context.Materials.Add(material);
+            _context.Tools.Add(tools);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMaterial", new { id = material.MaterialId }, material);
+            return CreatedAtAction("GetTools", new { id = tools.ToolsId }, tools);
         }
 
-        // DELETE: api/Materials/5
+        // DELETE: api/Tools/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMaterial(int id)
+        public async Task<IActionResult> DeleteTools(int id)
         {
-            var material = await _context.Materials.FindAsync(id);
-            if (material == null)
+            var tools = await _context.Tools.FindAsync(id);
+            if (tools == null)
             {
                 return NotFound();
             }
 
-            _context.Materials.Remove(material);
+            _context.Tools.Remove(tools);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MaterialExists(int id)
+        private bool ToolsExists(int id)
         {
-            return _context.Materials.Any(e => e.MaterialId == id);
+            return _context.Tools.Any(e => e.ToolsId == id);
         }
     }
 }
