@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 
 namespace apiDuramasApp.Models
 {
-    public class Material
+    public class DetalleDocumento
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
-        public int MaterialId { get; set; }
+        public int DetalleDocumentoId { get; set; }
+        public int DocumentoId { get; set; }
         public string Descripcion { get; set; }
         public int Cantidad { get; set; }
-        public string Marca { get; set; }
+        public decimal Itbis{ get; set; }
+        public Decimal Precio { get; set; }
+        public Decimal Total { get; set; }
         public bool Activo { get; set; }
     }
 }

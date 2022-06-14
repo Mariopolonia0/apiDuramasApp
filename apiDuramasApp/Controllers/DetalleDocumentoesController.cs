@@ -12,47 +12,47 @@ namespace apiDuramasApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MaterialsController : ControllerBase
+    public class DetalleDocumentoesController : ControllerBase
     {
         private readonly Contexto _context;
 
-        public MaterialsController(Contexto context)
+        public DetalleDocumentoesController(Contexto context)
         {
             _context = context;
         }
 
-        // GET: api/Materials
+        // GET: api/DetalleDocumentoes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Material>>> GetMaterials()
+        public async Task<ActionResult<IEnumerable<DetalleDocumento>>> GetdetalleDocumentos()
         {
-            return await _context.Materials.ToListAsync();
+            return await _context.detalleDocumentos.ToListAsync();
         }
 
-        // GET: api/Materials/5
+        // GET: api/DetalleDocumentoes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Material>> GetMaterial(int id)
+        public async Task<ActionResult<DetalleDocumento>> GetDetalleDocumento(int id)
         {
-            var material = await _context.Materials.FindAsync(id);
+            var detalleDocumento = await _context.detalleDocumentos.FindAsync(id);
 
-            if (material == null)
+            if (detalleDocumento == null)
             {
                 return NotFound();
             }
 
-            return material;
+            return detalleDocumento;
         }
 
-        // PUT: api/Materials/5
+        // PUT: api/DetalleDocumentoes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMaterial(int id, Material material)
+        public async Task<IActionResult> PutDetalleDocumento(int id, DetalleDocumento detalleDocumento)
         {
-            if (id != material.MaterialId)
+            if (id != detalleDocumento.DetalleDocumentoId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(material).State = EntityState.Modified;
+            _context.Entry(detalleDocumento).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace apiDuramasApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MaterialExists(id))
+                if (!DetalleDocumentoExists(id))
                 {
                     return NotFound();
                 }
@@ -73,19 +73,19 @@ namespace apiDuramasApp.Controllers
             return NoContent();
         }
 
-        // POST: api/Materials
+        // POST: api/DetalleDocumentoes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Material>> PostMaterial(Material material)
+        public async Task<ActionResult<DetalleDocumento>> PostDetalleDocumento(DetalleDocumento detalleDocumento)
         {
-            _context.Materials.Add(material);
+            _context.detalleDocumentos.Add(detalleDocumento);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (MaterialExists(material.MaterialId))
+                if (DetalleDocumentoExists(detalleDocumento.DetalleDocumentoId))
                 {
                     return Conflict();
                 }
@@ -95,28 +95,28 @@ namespace apiDuramasApp.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMaterial", new { id = material.MaterialId }, material);
+            return CreatedAtAction("GetDetalleDocumento", new { id = detalleDocumento.DetalleDocumentoId }, detalleDocumento);
         }
 
-        // DELETE: api/Materials/5
+        // DELETE: api/DetalleDocumentoes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMaterial(int id)
+        public async Task<IActionResult> DeleteDetalleDocumento(int id)
         {
-            var material = await _context.Materials.FindAsync(id);
-            if (material == null)
+            var detalleDocumento = await _context.detalleDocumentos.FindAsync(id);
+            if (detalleDocumento == null)
             {
                 return NotFound();
             }
 
-            _context.Materials.Remove(material);
+            _context.detalleDocumentos.Remove(detalleDocumento);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MaterialExists(int id)
+        private bool DetalleDocumentoExists(int id)
         {
-            return _context.Materials.Any(e => e.MaterialId == id);
+            return _context.detalleDocumentos.Any(e => e.DetalleDocumentoId == id);
         }
     }
 }

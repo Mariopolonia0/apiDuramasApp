@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using apiDuramasApp.Data;
@@ -28,62 +26,6 @@ namespace apiDuramasApp.Controllers
             return await _context.Tools.ToListAsync();
         }
 
-        // GET: api/Tools/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Tools>> GetTools(int id)
-        {
-            var tools = await _context.Tools.FindAsync(id);
-
-            if (tools == null)
-            {
-                return NotFound();
-            }
-
-            return tools;
-        }
-
-        // PUT: api/Tools/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTools(int id, Tools tools)
-        {
-            if (id != tools.ToolsId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(tools).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ToolsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Tools
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Tools>> PostTools(Tools tools)
-        {
-            _context.Tools.Add(tools);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTools", new { id = tools.ToolsId }, tools);
-        }
-
         // DELETE: api/Tools/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTools(int id)
@@ -98,6 +40,29 @@ namespace apiDuramasApp.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // POST: api/Tools
+        [HttpPost]
+        public async Task<ActionResult<Tools>> PostClientes(Tools tool)
+        {
+            if (tool.ToolsId > 0)
+            {
+                if (ToolsExists(tool.ToolsId))
+                {
+                    _context.Entry(tool).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
+                else
+                {
+                    _context.Tools.Add(tool);
+                    await _context.SaveChangesAsync();
+                    return CreatedAtAction("GetTools", new { id = tool.ToolsId }, tool);
+                }
+            }
+            else
+                return CreatedAtAction("PostAsync", tool);
         }
 
         private bool ToolsExists(int id)

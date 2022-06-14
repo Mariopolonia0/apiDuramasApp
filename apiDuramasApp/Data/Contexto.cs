@@ -1,9 +1,6 @@
 ﻿using apiDuramasApp.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace apiDuramasApp.Data
 {
@@ -13,9 +10,11 @@ namespace apiDuramasApp.Data
         public DbSet<Tools> Tools { get; set; }
         public DbSet<Documento> Documentos { get; set; }
         public DbSet<DetalleDocumento> detalleDocumentos { get; set; }
-        public Contexto(DbContextOptions<Contexto> options) : base(options)
-        {
+        public Contexto(DbContextOptions<Contexto> options) : base(options) { }
 
+        protected override void OnModelCreating(ModelBuilder model)
+        {
+            base.OnModelCreating(model);
         }
     }
 }

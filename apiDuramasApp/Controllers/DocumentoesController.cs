@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using apiDuramasApp.Data;
@@ -79,7 +77,21 @@ namespace apiDuramasApp.Controllers
         public async Task<ActionResult<Documento>> PostDocumento(Documento documento)
         {
             _context.Documentos.Add(documento);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (DocumentoExists(documento.DocumentoId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return CreatedAtAction("GetDocumento", new { id = documento.DocumentoId }, documento);
         }
